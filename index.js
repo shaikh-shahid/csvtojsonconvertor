@@ -13,6 +13,10 @@ router.get('/convert/csv/to/json',(req,res) => {
   if(req.query.q === undefined || req.query.q === null || req.query.q === '') {
     return res.json({error: true,message: 'No file provided!'});
   }
+  let extension = req.query.q.split('.').pop();
+  if(extension !== 'csv') {
+    return res.json({error: true,message: 'Invalid file extension!'});
+  }
   request(req.query.q,(error,response,body) => {
     if(error) {
       return res.json({error: true,message: 'Error occurred reading CSV file!'});
