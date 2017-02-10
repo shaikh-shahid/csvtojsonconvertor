@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CSV TO JSON Convertor</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://raw.githubusercontent.com/abodelot/jquery.json-viewer/master/json-viewer/jquery.json-viewer.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="json-viewer.js"></script>
+<style>
+  body {
+    margin: 5%;
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    $('#loader').hide();
+    $('#json').hide();
+    $('#jsonconvertor').click(function(e) {
+      var path = $('#csvpath').val();
+      if(path === undefined || path === null || path === '') {
+        alert('Invalid file');
+        return;
+      }
+      $('#loader').show();
+      $.get('http://' + window.location.host + '/convert/csv/to/json?q='+path,function(data) {
+        $('#loader').hide();
+        if(data.error) {
+          alert(data.message);
+          return;
+        }
+        $('#json').show().jsonViewer(data.data);
+      });
+    });
+  });
+</script>
+  </head>
+  <body>
+    <h2>CSV to JSON Convertor</h2>
+    <input type='text' size=80 id='csvpath' placeholder="Enter CSV File Path URL"><br><br>
+    <input type='button' value='Convert to JSON' id='jsonconvertor'><br><br>
+    <span id='loader'><img src='http://i.giphy.com/3oEjI6SIIHBdRxXI40.gif'></span>
+    <pre id='json'></pre>
+  </body>
+</html>
