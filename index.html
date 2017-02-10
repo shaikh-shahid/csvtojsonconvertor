@@ -30,7 +30,7 @@
         return;
       }
       $('#loader').show();
-      $.get('http://' + window.location.host + '/convert/csv/to/json?q='+path,function(data) {
+      $.get('https://' + window.location.host + '/convert/csv/to/json?q='+path,function(data) {
         $('#loader').hide();
         if(data.error) {
           alert(data.message);
